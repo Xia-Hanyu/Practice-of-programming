@@ -5,15 +5,11 @@
 #include <algorithm>
 using namespace std;
 
-template<typename T1, typename T2, typename fn = less<T1> >
+template<typename T1, typename T2, typename fn = greater<T1> >
 class MyMultimap: public multimap<T1, T2, fn>
 {
-    public:
-    friend ostream & operator<<(ostream & os, pair<T1, T2> & p)
-    {
-        os << "(" << p.first << "," << p.second << ")";
-        return os;
-    }
+	public:
+    friend ostream & operator<<(ostream & os, pair<T1, T2> & p);
     void Set(T1 key, T2 val)
     {
         for(auto i = this->begin(); i != this->end(); ++i){
@@ -23,6 +19,13 @@ class MyMultimap: public multimap<T1, T2, fn>
     }
 
 };
+// 友元函数写在外面即可，虽然不知道为什么
+template<typename T1, typename T2, typename fn = greater<T1> >
+ostream & operator<<(ostream & os, pair<T1, T2> & p)
+{
+	os << "(" << p.first << "," << p.second << ")";
+	return os;
+}
 
 struct Student 
 {
