@@ -26,12 +26,15 @@ int main()
         else if(op == "merge"){
             int id1, id2;
             cin >> id1 >> id2;
-            all[id1]->sort(), all[id2]->sort();
-            all[id1]->merge(*(all[id2]));
+            if(id1 != id2){
+                all[id1]->sort(), all[id2]->sort();
+                all[id1]->merge(*(all[id2]));
+            }
         }
         else if(op == "unique"){
             int id;
             cin >> id;
+            all[id]->sort();
             all[id]->unique();
         }
         else if(op == "out"){
@@ -40,10 +43,9 @@ int main()
             if(all[id]->size()){
                 all[id]->sort();
                 cout << all[id]->front();
-                auto it = all[id]->begin();
-                ++it;
-                for(; it != all[id]->end(); ++it)
-                    cout << " " << *it;
+                auto i = all[id]->begin(); ++i;
+                for(; i != all[id]->end(); ++i)
+                    cout << " " << *i;
                 cout << endl;
             }else{
                 cout << endl;
