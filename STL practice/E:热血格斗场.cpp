@@ -1,36 +1,34 @@
-#include <iostream>
-#include <string>
-#include <map>
 #include <algorithm>
+#include <cmath>
+#include <iostream>
+#include <map>
 using namespace std;
+// 全部使用scanf printf可以AC， 使用 cin cout会TLE
 
-int main()
+int main() 
 {
-    multimap<int, int> all;
-    multimap<int, int>::iterator cur; // 当前存入的数据的迭代器
+    map<int, int> all;
     all.insert(make_pair(1000000000, 1));
-	int n, id, strength;
-    cin >> n;
-    while(n--)
+    int n;
+    scanf("%d", &n);
+    while (n--)
     {
-        cin >> id >> strength;
-        cur = all.insert(make_pair(strength, id));
-        if(cur == all.begin()){
-            cout << id << " " << (++cur)->second << endl;
-        }
-        else if((++cur) == all.end()){ // 新选手力量最大
-            --cur; // 回到当前
-            cout << id << " " << (--cur)->second << endl; 
-        }
-        else{
-            auto lower = --cur; ++cur;
-            auto higher = ++cur; --cur;
-            if(cur->first - lower->first <= higher->first - cur->first)
-                cout << id << " " << lower->second << endl;
+        int id, strength;
+        scanf("%d %d", &id, &strength);
+        auto range = all.equal_range(strength);
+        int result;
+        if (range.first == all.begin()) {
+            result = all.begin()->second;
+        }else{
+            range.first--;
+            if(range.second == all.end())
+                result = range.first->second;
             else
-                cout << id << " " << higher->second << endl;
+                result = strength - range.first->first <= range.second->first - strength ? range.first->second : range.second->second;
         }
+        printf("%d %d\n", id, result);
+        all.insert(make_pair(strength, id));
     }
-	system("pause");
-	return 0;
+    system("pause");
+    return 0;
 }
